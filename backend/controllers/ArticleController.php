@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\Article;
 use backend\models\ArticleCategory;
 use backend\models\ArticleDetail;
+use yii\web\Request;
 
 class ArticleController extends \yii\web\Controller
 {
@@ -82,11 +83,28 @@ class ArticleController extends \yii\web\Controller
     }
     //查看文章详情
     public function actionDetail($id){
-
         $article=Article::findOne($id);
-//        var_dump($article);exit;
+        $article_id=Article::findOne($id)->id;
+       $detail=ArticleDetail::findOne($article_id);
 
-        return $this->render('view',['article'=>$article]);
+//var_dump($detail);exit;
+        return $this->render('view',['detail'=>$detail,'article'=>$article]);
     }
+    public function actionContent($id){
+        $article_id=Article::findOne($id)->id;
 
+        $model=new ArticleDetail();
+        $request=new Request();
+        if($request->isPost){
+            $model->load($request->post());
+
+            if($model->validate()){
+                $model->article_id=$article_id;
+                $model->save();
+                return $this->redirect(['article/index']);
+            }
+        }
+
+        return $this->render('edcont',['model'=>$model]);
+    }
 }

@@ -16,7 +16,7 @@ use Yii;
  */
 class Brand extends \yii\db\ActiveRecord
 {
-    public $imgFile;
+//    public $imgFile;
 
     //状态选项
     public static $statuOptions=[-1=>'删除',0=>'隐藏',1=>'正常'];
@@ -39,7 +39,7 @@ class Brand extends \yii\db\ActiveRecord
             [['sort', 'status'], 'integer'],
             [['name'], 'string', 'max' => 50],
             [['logo'], 'string', 'max' => 255],
-            ['imgFile','file','extensions'=>['jpg','png','gif']],
+//            ['imgFile','file','extensions'=>['jpg','png','gif']],
         ];
     }
 
@@ -52,7 +52,7 @@ class Brand extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => '品牌名称',
             'intro' => '简介',
-            'imgFile' => '品牌logo',
+            'logo' => '品牌logo',
             'sort' => '排序',
             'status' => '状态',
         ];

@@ -37,7 +37,7 @@ class ArticleDetail extends \yii\db\ActiveRecord
     {
         return [
             'article_id' => '文章id',
-            'content' => '简介',
+            'content' => '内容',
         ];
     }
 }

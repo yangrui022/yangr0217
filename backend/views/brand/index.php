@@ -23,9 +23,10 @@
         </tr>
     <?php endforeach;?>
 </table>
-
-
 <div>
+    <?=\yii\widgets\LinkPager::widget(['pagination'=>$page,'nextPageLabel'=>'下一页',
+        'prevPageLabel'=>'上一页','firstPageLabel'=>'首页','lastPageLabel'=>'末页']);?>
+</div>
     <a href="<?=\yii\helpers\Url::to(['brand/add'])?>" class="btn btn-info">添加</a>
 </div>
 
