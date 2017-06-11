@@ -31,7 +31,7 @@ class ArticleCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['intro','name'], 'string'],
+            [['intro','name'], 'string','message'=>'{attribute}不能为空'],
             [['sort', 'status', 'is_help'], 'integer'],
             [['name'], 'string', 'max' => 50],
         ];

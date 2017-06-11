@@ -37,7 +37,7 @@ class Article extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['intro','name','article_category_id','sort'],'required'],
+            [['intro','name','article_category_id','sort'],'required','message'=>'{attribute}不能为空'],
             [['intro','name'], 'string'],
             [['article_category_id', 'sort', 'status'], 'integer'],
             [['name'], 'string', 'max' => 50],
@@ -56,6 +56,7 @@ class Article extends \yii\db\ActiveRecord
             'article_category_id' => '文章分类id',
             'sort' => '文章排序',
             'status' => '文章状态',
+
             'create_time' => '创建时间',
         ];
     }

@@ -5,15 +5,28 @@ namespace backend\controllers;
 use backend\models\Article;
 use backend\models\ArticleCategory;
 use backend\models\ArticleDetail;
-use yii\web\Request;
+use yii\data\Pagination;
+
 
 class ArticleController extends \yii\web\Controller
 {
     //文章列表
     public function actionIndex()
     {
-        $articles=Article::find()->all();
-        return $this->render('index',['articles'=>$articles]);
+
+        $query=Article::find();
+        $total=$query->count();
+        $page=new Pagination([
+                'totalCount'=>$total,
+                'defaultPageSize'=>2
+            ]
+        );
+        //从下标0开始偏移3条 3条数据
+
+        $articles=$query->offset($page->offset)->limit($page->limit)->all();
+//        $detail=ArticleDetail::find()->all();
+//        $articles=Article::find()->all();
+        return $this->render('index',['articles'=>$articles,'page'=>$page]);
 
     }
 
@@ -28,47 +41,54 @@ class ArticleController extends \yii\web\Controller
         if ($requerst->isPost) {
             //加载数据
             $model->load($requerst->post());
+            $detail->load($requerst->post());
 
-
-            if ($model->validate()) {
+            if ($model->validate() && $detail->validate()) {
 
                 $model->create_time=time();
-                $model->save(false);
-                $detail->content=$model->intro;
+                $model->save();
+//            var_dump($model);exit;
+//                $detail->content=$model->content;
                 $detail->article_id=$model->id;
                 $detail->save();
                 \Yii::$app->session->setFlash('success', '文章添加成功');
                 return $this->redirect(['article/index']);
+            }else{
+
+                var_dump($model->getErrors());exit;
             }
         }
-        return $this->render('add', ['model' => $model,'category'=>$category]);
+        return $this->render('add', ['model' => $model,'category'=>$category,'detail'=>$detail]);
 
     }
     //文章修改
     public function actionEdit($id){
         $category=ArticleCategory::find()->all();
-        $detail=new ArticleDetail();
+        $detail=ArticleDetail::findOne($id);
         $model=Article::findOne($id);
         $requerst = \Yii::$app->request;
 
         if ($requerst->isPost) {
             //加载数据
             $model->load($requerst->post());
-
+            $detail->load($requerst->post());
             //验证数据是否正确
-            if ($model->validate()) {
-            //保持数据
-                $model->save(false);
+            if ($model->validate() && $detail->validate()) {
 
-                $detail->content=$model->intro;
-                $detail->article_id=$model->id;
+                //保持数据
+                $model->save();
+//                323231
+                //3545aa63
+
+//                $detail->content=$model->content;
+//                $detail->article_id=$model->id;
                 $detail->save();
                 \Yii::$app->session->setFlash('success', '文章修改成功');
                 return $this->redirect(['article/index']);
             }
         }
         //加载视图 并分配数据
-        return $this->render('add', ['model' => $model,'category'=>$category]);
+        return $this->render('add', ['model' => $model,'category'=>$category,'detail'=>$detail]);
     }
 
     //删除
@@ -84,27 +104,26 @@ class ArticleController extends \yii\web\Controller
     //查看文章详情
     public function actionDetail($id){
         $article=Article::findOne($id);
-        $article_id=Article::findOne($id)->id;
-       $detail=ArticleDetail::findOne($article_id);
+//        $article_id=Article::findOne($id)->id;
 
-//var_dump($detail);exit;
+       $detail=ArticleDetail::findOne($id);
+
+
         return $this->render('view',['detail'=>$detail,'article'=>$article]);
     }
-    public function actionContent($id){
-        $article_id=Article::findOne($id)->id;
 
-        $model=new ArticleDetail();
-        $request=new Request();
-        if($request->isPost){
-            $model->load($request->post());
 
-            if($model->validate()){
-                $model->article_id=$article_id;
-                $model->save();
-                return $this->redirect(['article/index']);
-            }
-        }
+    public function actions()
+    {
+        return [
 
-        return $this->render('edcont',['model'=>$model]);
+            'ueditor' => [
+                'class' => 'crazyfd\ueditor\Upload',
+                'config'=>[
+                    'uploadDir'=>date('Y/m/d')
+                ]
+
+            ],
+        ];
     }
 }
