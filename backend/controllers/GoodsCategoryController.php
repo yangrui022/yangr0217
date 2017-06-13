@@ -13,18 +13,20 @@ class GoodsCategoryController extends \yii\web\Controller
     public function actionIndex()
 
     {
-        $query=GoodsCategory::find();
-        $total=$query->count();
-        $page=new Pagination([
-                'totalCount'=>$total,
-                'defaultPageSize'=>3
-            ]
-        );
-        //从下标0开始偏移3条 3条数据
 
-        $goods_categories=$query->offset($page->offset)->limit($page->limit)->all();
+        $goods_categories=GoodsCategory::find()->orderBy('tree,lft')->all();
+//        $total=$query->count();
+//        $page=new Pagination([
+//                'totalCount'=>$total,
+//                'defaultPageSize'=>3
+//            ]
+//        );
+//        //从下标0开始偏移3条 3条数据
+//
+//        $goods_categories=$query->offset($page->offset)->limit($page->limit)->all();
 
-        return $this->render('index',['goods_categories'=>$goods_categories,'page'=>$page]);
+
+        return $this->render('index',['goods_categories'=>$goods_categories]);
     }
 
     //添加商品分类
@@ -40,6 +42,7 @@ class GoodsCategoryController extends \yii\web\Controller
                 $parent = GoodsCategory::findOne(['id'=>$model->parent_id]);//获取上一级分类
                 $model->prependTo($parent);//添加到上一级分类下面
             }else{
+
                 //添加一级分类
                 $model->makeRoot();
             }
@@ -54,6 +57,7 @@ class GoodsCategoryController extends \yii\web\Controller
     public function actionEdit($id){
 
         $model = GoodsCategory::findOne(['id'=>$id]);
+        $parent_id=$model->parent_id;
         if($model==null){
             throw new NotFoundHttpException('分类不存在');
         }
@@ -67,7 +71,14 @@ class GoodsCategoryController extends \yii\web\Controller
                 $model->prependTo($parent);//添加到上一级分类下面
             }else{
                 //添加一级分类
-                $model->makeRoot();
+                //判断父id是否发生变化
+                if($model->parent_id==$parent_id && $model->parent_id==0){
+                    $model->save();
+
+                }else{
+                    $model->makeRoot();
+                }
+
             }
             \Yii::$app->session->setFlash('success','修改分类成功');
             return $this->redirect(['goods-category/index']);
@@ -76,6 +87,22 @@ class GoodsCategoryController extends \yii\web\Controller
         $categories = ArrayHelper::merge([['id'=>0,'name'=>'顶级分类','parent_id'=>0]],GoodsCategory::find()->asArray()->all());
         return $this->render('add',['model'=>$model,'categories'=>$categories]);
     }
+    //删除分类，分类下有子孙分类不能删除，只能删除没有子孙分类的分类；
+    public function actionDelete($id){
+      $model=  GoodsCategory::findOne(['parent_id'=>$id]);
+
+     if(!empty($model)){
+         \Yii::$app->session->setFlash('danger','该分类下有子分类不能删除');
+         return $this->redirect(['goods-category/index']);
+     }
+        GoodsCategory::findOne($id)->delete();
+        return $this->redirect(['goods-category/index']);
+        }
+
+
+
+
+
 
     //测试
     public function actionTest(){

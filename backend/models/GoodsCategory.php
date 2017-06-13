@@ -19,6 +19,11 @@ use creocoder\nestedsets\NestedSetsBehavior;
  */
 class GoodsCategory extends \yii\db\ActiveRecord
 {
+
+    public function getParent(){
+
+        return $this->hasOne(GoodsCategory::className(),['id'=>'parent_id']);
+    }
     /**
      * @inheritdoc
      */
