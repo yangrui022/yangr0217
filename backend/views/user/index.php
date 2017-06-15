@@ -16,7 +16,7 @@
     <?php foreach ($users as $user):?>
         <tr>
             <td><?=$user->id?></td>
-            <td><?=\yii\bootstrap\Html::img($user->photo,['width'=>'60'])?></td>
+            <td><?=\yii\bootstrap\Html::img(Yii::getAlias('@web').$user->photo,['width'=>'60'])?></td>
             <td><?=$user->username?></td>
             <td><?=$user->email?></td>
             <td><?=$user->status?'在线':'离线'?></td>

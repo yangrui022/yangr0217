@@ -81,7 +81,7 @@ class UserController extends \yii\web\Controller
                 $model->photo = $fileName;
 
                 $model->save(false);
-                \Yii::$app->session->setFlash('success', '注册成功');
+                \Yii::$app->session->setFlash('success', '修改成功');
 
                 return $this->redirect(['user/index']);
             }else{

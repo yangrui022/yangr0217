@@ -26,7 +26,7 @@ Class LoginForm extends Model{
     public function rules()
     {
         return [
-            [['username','password_hash','code'],'required'],
+            [['username','password_hash','code'],'required','message'=>'{attribute}不能为空'],
             ['code','captcha','captchaAction'=>'login/captcha'],
             //添加自定义验证方法
             ['username','validateUsername'],

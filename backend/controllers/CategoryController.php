@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\ArticleCategory;
 
 class CategoryController extends PublicController
+
 {
     public function actionIndex()
     {
