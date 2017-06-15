@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Request;
 use yii\web\NotFoundHttpException;
 
-class GoodsCategoryController extends \yii\web\Controller
+class GoodsCategoryController extends PublicController
 {
     public function actionIndex()
 

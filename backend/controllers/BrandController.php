@@ -17,7 +17,7 @@ use yii\web\Controller;
 
 
 
-class BrandController extends Controller
+class BrandController extends PublicController
 {
     public function actionIndex()
     {
