@@ -152,7 +152,7 @@ class BrandController extends PublicController
                 'afterValidate' => function (UploadAction $action) {},
                 'beforeSave' => function (UploadAction $action) {},
                 'afterSave' => function (UploadAction $action) {
-                    $imgUrl=$action->getWebUrl();
+                    $imgUrl=$action->getSavePath();
 
 
                     $ak = 'OzVRCOc5q9bCo17jINHpEumKDpoM0P02nqn9vrA-';
@@ -164,7 +164,7 @@ class BrandController extends PublicController
                     //要上传的文件
 
 
-                    $qiniu->uploadFile(\Yii::getAlias('@webroot').$imgUrl,$imgUrl);
+                    $qiniu->uploadFile($imgUrl,$action->getWebUrl());
 
                    $url=$qiniu->getLink($imgUrl);
                     $action->output['fileUrl'] = $url;
