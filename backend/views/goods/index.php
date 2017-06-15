@@ -42,7 +42,7 @@ echo \yii\bootstrap\Html::submitButton('搜索',['class'=>'btn btn-info']);
             <td><?=$good->id?></td>
             <td><?=$good->name?></td>
             <td><?=$good->sn?></td>
-            <td><?=\yii\bootstrap\Html::img($good->logo,['width'=>100,'class'=>'img-thumbnail'])?></td>
+            <td><?=\yii\bootstrap\Html::img(Yii::getAlias('@web').$good->logo,['width'=>100,'class'=>'img-thumbnail'])?></td>
             <td><?=$good->market_price?></td>
             <td><?=$good->shop_price?></td>
             <td><?=$good->brand->name?></td>
