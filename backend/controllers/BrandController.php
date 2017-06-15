@@ -166,7 +166,7 @@ class BrandController extends PublicController
 
                     $qiniu->uploadFile($imgUrl,$action->getWebUrl());
 
-                   $url=$qiniu->getLink($imgUrl);
+                   $url=$qiniu->getLink($action->getWebUrl());
                     $action->output['fileUrl'] = $url;
 //
 //                    $action->getFilename(); // "image/yyyymmddtimerand.jpg"
