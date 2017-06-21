@@ -48,7 +48,7 @@ class CategoryController extends PublicController
             if ($model->validate()) {
 
                 $model->save(false);
-                \Yii::$app->session->setFlash('success', '文章添加成功');
+                \Yii::$app->session->setFlash('success', '文章修改成功');
                 return $this->redirect(['category/index']);
             }
         }
@@ -56,7 +56,7 @@ class CategoryController extends PublicController
 
     }
 
-    public function actionDelete($id){
+    public function actionDel($id){
         //获取当前删除对象
         $model=ArticleCategory::findOne($id);
 

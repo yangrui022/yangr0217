@@ -18,8 +18,19 @@
             <td><?=\yii\bootstrap\Html::img($brand->logo,['width'=>150])?></td>
             <td><?=$brand->sort?></td>
             <td><?=\backend\models\Brand::$statuOptions[$brand->status]?></td>
-            <td><a href='<?=\yii\helpers\Url::to(['brand/delete','id'=>$brand->id])?>' class="btn btn-danger ">删除</a>
-                <a href='<?=\yii\helpers\Url::to(['brand/edit','id'=>$brand->id])?>' class="btn btn-info ">修改</a></td>
+            <td>
+                <?php
+                if(Yii::$app->user->can('brand/edit')){
+                    echo  \yii\bootstrap\Html::a('',['brand/edit','id'=>$brand->id],['class'=>'btn btn-default  glyphicon glyphicon-edit']);
+                }
+
+                if(Yii::$app->user->can('brand/del')){
+                    echo  \yii\bootstrap\Html::a('',['brand/del','id'=>$brand->id],['class'=>'btn btn-default  glyphicon  glyphicon-trash']);
+                }
+
+                ?>
+
+
         </tr>
     <?php endforeach;?>
 </table>

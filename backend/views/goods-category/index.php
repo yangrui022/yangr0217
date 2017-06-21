@@ -17,8 +17,17 @@
             <td><?=$goods_categorie->intro?></td>
             <td><?=$goods_categorie->parent_id==0?'顶级分类':$goods_categorie->parent->name?></td>
 
-            <td><a href='<?=\yii\helpers\Url::to(['goods-category/delete','id'=>$goods_categorie->id])?>' class="btn btn-danger btn-sm ">删除</a>
-                <a href='<?=\yii\helpers\Url::to(['goods-category/edit','id'=>$goods_categorie->id])?>' class="btn btn-info  btn-sm ">修改</a>
+            <td>
+                <?php
+                if(Yii::$app->user->can('goods-category/edit')){
+                    echo  \yii\bootstrap\Html::a('',['goods-category/edit','id'=>$goods_categorie->id],['class'=>'btn btn-default  glyphicon glyphicon-edit']);
+                }
+                if(Yii::$app->user->can('goods-category/del')){
+                    echo  \yii\bootstrap\Html::a('',['goods-category/del','id'=>$goods_categorie->id],['class'=>'btn btn-default  glyphicon glyphicon-trash']);
+                }
+                ?>
+
+
 
 
             </td>

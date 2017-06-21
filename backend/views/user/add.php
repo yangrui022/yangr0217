@@ -8,6 +8,7 @@
 
 }?>
 <?=$form->field($model,'imgFile')->fileInput()?>
+<?=$form->field($model,'roles',['inline'=>true])->checkboxList(\backend\models\User::getRoleOptions())?>
 <?=$form->field($model,'status',['inline'=>'ture'])->radioList([1=>'正常',0=>'隐藏'])?>
 <?php if($model->photo) echo "<img src='$model->photo' width='100px'/>"?>
 

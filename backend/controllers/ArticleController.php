@@ -2,13 +2,15 @@
 
 namespace backend\controllers;
 
+use backend\filters\AccessFilter;
 use backend\models\Article;
 use backend\models\ArticleCategory;
 use backend\models\ArticleDetail;
 use yii\data\Pagination;
+use yii\web\Controller;
 
 
-class ArticleController extends PublicController
+class ArticleController extends Controller
 {
     //文章列表
     public function actionIndex()
@@ -92,7 +94,7 @@ class ArticleController extends PublicController
     }
 
     //删除
-    public function actionDelete($id){
+    public function actionDel($id){
         //获取当前删除对象
         $model=Article::findOne($id);
 
@@ -125,5 +127,16 @@ class ArticleController extends PublicController
 
             ],
         ];
+    }
+    public function behaviors()
+    {
+        return [
+
+            'access' => [
+                'class' => AccessFilter::className(),
+                'only'=>['add','edit','del','view','photo']
+            ],
+        ];
+
     }
 }

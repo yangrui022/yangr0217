@@ -27,36 +27,7 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
-    NavBar::begin([
-        'brandLabel' => '商品管理系统',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => '主页', 'url' => ['/site/index']],
-        ['label' => '品牌', 'url' => ['/brand/index']],
-        ['label' => '文章', 'url' => ['/article/index']],
-        ['label' => '商品', 'url' => ['/goods/index']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => '登录', 'url' => ['/login/index']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                '注销 (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
+   echo  \backend\widgets\MenuWidget::widget();
     ?>
 
     <div class="container">
@@ -77,6 +48,8 @@ AppAsset::register($this);
 </footer>
 
 <?php $this->endBody() ?>
+
+
 </body>
 </html>
 <?php $this->endPage() ?>

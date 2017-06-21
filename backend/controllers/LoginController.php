@@ -19,7 +19,7 @@ Class LoginController extends Controller{
 
         if ($model->load(\Yii::$app->request->post()) && $model->login()) {
 
-           if ($model->validate()) {
+//           if ($model->validate()) {
 //
                 $user=User::findOne(['username'=>$model->username]);
                 $user->last_login_ip=\Yii::$app->request->userIP;
@@ -30,7 +30,7 @@ Class LoginController extends Controller{
                 \Yii::$app->session->setFlash('success','登录成功');
             return $this->redirect(['user/index']);
 //
-        }
+//        }
         }
         return $this->render('index',['model'=>$model]);
     }

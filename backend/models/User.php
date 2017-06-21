@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
 /**
@@ -24,6 +25,7 @@ use yii\web\IdentityInterface;
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     public $imgFile;
+    public $roles=[];
 
     /**
      * @inheritdoc
@@ -51,13 +53,14 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            ['roles','safe'],
             ['password_hash','required','on'=>self::SCENARIO_ADD],
             ['password_hash','string','length'=>[6,10],'tooShort'=>'密码不够六位','on'=>self::SCENARIO_ADD],
             [['username', 'email'], 'required','message'=>'{attribute}不能为空'],
             [['status', 'create_time', 'updated_time', 'last_login_time'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
-            [['username'], 'unique','message'=>'{attribute}已被注册'],
+                [['username'], 'unique','message'=>'{attribute}已被注册'],
             [['email'], 'unique','message'=>'{attribute}已被注册'],
             [['password_reset_token'], 'unique'],
             ['imgFile','file','extensions'=>['jpg','png','gif']],
@@ -84,9 +87,53 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'updated_time' => '更新时间',
             'last_login_time' => '最后登录时间',
             'last_login_ip' => '最后登录ip',
+            'roles'=>'设置用户角色'
         ];
     }
 
+    public static  function getRoleOptions(){
+
+        $authManger=\Yii::$app->authManager;
+        return ArrayHelper::map($authManger->getRoles(),'name','name');
+    }
+    public function addUser($id)
+    {
+        //实例化对象
+        $authManager = \Yii::$app->authManager;
+        //获取角色
+        foreach ($this->roles as $role){
+            $roles=$authManager->getRole($role);
+              $authManager->assign($roles,$id);
+        }
+
+    }
+    public function updateUser($id){
+        //实例化对象
+        $authManager = \Yii::$app->authManager;
+        $authManager->revokeAll($id);
+        //获取当前角色
+      if($this->roles!=null){
+          foreach ($this->roles as $role){
+              $roles=$authManager->getRole($role);
+              $authManager->assign($roles,$id);
+      }
+
+
+
+        }
+        return true;
+
+    }
+    public function loadData($id){
+
+        //实例化对象
+
+        $roles=\Yii::$app->authManager->getRolesByUser($id);
+        foreach ($roles as $role){
+            $this->roles[]=$role->name;
+        }
+
+    }
     /**
      * Finds an identity by the given ID.
      * @param string|int $id the ID to be looked for

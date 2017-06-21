@@ -7,6 +7,7 @@
  */
 namespace backend\controllers;
 
+use backend\filters\AccessFilter;
 use backend\models\Brand;
 
 use crazyfd\qiniu\Qiniu;
@@ -17,7 +18,7 @@ use yii\web\Controller;
 
 
 
-class BrandController extends PublicController
+class BrandController extends Controller
 {
     public function actionIndex()
     {
@@ -104,7 +105,7 @@ class BrandController extends PublicController
         return $this->render('add', ['model' => $model]);
     }
         //删除 改变状态
-    public function actionDelete($id){
+    public function actionDel($id){
         //获取当前删除对象
         $model=Brand::findOne($id);
 
@@ -177,6 +178,16 @@ class BrandController extends PublicController
         ];
     }
 
+    public function behaviors()
+    {
+        return [
 
+            'access' => [
+                'class' => AccessFilter::className(),
+                'only'=>['add','edit','del','index']
+            ],
+        ];
+
+    }
 
 }

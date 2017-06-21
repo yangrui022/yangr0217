@@ -21,9 +21,20 @@
             <td><?=\backend\models\Brand::$statuOptions[$article->status]?></td>
 
             <td><?=date('Y-m-d H:i:s',$article->create_time)?></td>
-            <td><a href='<?=\yii\helpers\Url::to(['article/delete','id'=>$article->id])?>' class="btn btn-danger btn-sm ">删除</a>
-                <a href='<?=\yii\helpers\Url::to(['article/edit','id'=>$article->id])?>' class="btn btn-info  btn-sm ">修改</a>
-                <a href='<?=\yii\helpers\Url::to(['article/detail','id'=>$article->id])?>' class="btn btn-success btn-sm ">查看文章详情</a>
+            <td>
+                <?php
+                if(Yii::$app->user->can('article/edit')){
+                    echo  \yii\bootstrap\Html::a('',['article/edit','id'=>$article->id],['class'=>'btn btn-default  glyphicon glyphicon-edit']);
+                }
+
+                if(Yii::$app->user->can('article/detail')){
+                    echo  \yii\bootstrap\Html::a('',['article/edit','id'=>$article->id],['class'=>'btn btn-default  glyphicon  glyphicon-search']);
+                }
+                if(Yii::$app->user->can('article/del')){
+                    echo  \yii\bootstrap\Html::a('',['article/edit','id'=>$article->id],['class'=>'btn btn-default  glyphicon  glyphicon-trash']);
+                }
+                ?>
+
 
             </td>
         </tr>

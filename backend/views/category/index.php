@@ -16,8 +16,19 @@
             <td><?=$category->intro?></td>
             <td><?=$category->sort?></td>
             <td><?=\backend\models\ArticleCategory::$categoryOptions[$category->status]?></td>
-            <td><a href='<?=\yii\helpers\Url::to(['category/delete','id'=>$category->id])?>' class="btn btn-danger ">删除</a>
-                <a href='<?=\yii\helpers\Url::to(['category/edit','id'=>$category->id])?>' class="btn btn-info ">修改</a></td>
+            <td>
+                <?php
+                if(Yii::$app->user->can('category/edit')){
+                    echo  \yii\bootstrap\Html::a('',['category/edit','id'=>$category->id],['class'=>'btn btn-default  glyphicon glyphicon-edit']);
+                }
+
+                if(Yii::$app->user->can('category/del')){
+                    echo  \yii\bootstrap\Html::a('',['category/del','id'=>$category->id],['class'=>'btn btn-default  glyphicon  glyphicon-trash']);
+                }
+
+                ?>
+
+
         </tr>
     <?php endforeach;?>
 </table>

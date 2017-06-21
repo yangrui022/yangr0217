@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\AccessFilter;
 use backend\models\Brand;
 use backend\models\Goods;
 use backend\models\GoodsDayCount;
@@ -11,12 +12,13 @@ use backend\models\GoodsIntro;
 use backend\models\GoodsPhoto;
 use backend\models\GoodSearchForm;
 use yii\data\Pagination;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Request;
 use yii\web\UploadedFile;
 use xj\uploadify\UploadAction;
 
-class GoodsController extends PublicController
+class GoodsController extends Controller
 {
     public function actionIndex()
     {
@@ -32,13 +34,6 @@ class GoodsController extends PublicController
 
         //接收表单提交的查询参数
         $model->search($query);
-
-
-
-
-
-
-
         $total = $query->count();
         $page = new Pagination([
                 'totalCount' => $total,
@@ -163,6 +158,7 @@ class GoodsController extends PublicController
         return $this->render('add', ['model' => $model, 'brand' => $brand, 'intro' => $intro]);
 
     }
+    //商品详情
     public function actionView($id){
         $goods=Goods::findOne($id);
         $view=GoodsIntro::findOne(['goods_id'=>$id]);
@@ -270,5 +266,15 @@ class GoodsController extends PublicController
         ];
     }
 
+    public function behaviors()
+    {
+        return [
 
+            'access' => [
+                'class' => AccessFilter::className(),
+                'only'=>['add','edit','del','view','index']
+            ],
+        ];
+
+    }
 }

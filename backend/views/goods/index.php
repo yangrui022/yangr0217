@@ -53,10 +53,24 @@ echo \yii\bootstrap\Html::submitButton('搜索',['class'=>'btn btn-info']);
             <td><?=$good->sort?></td>
             <td><?= date('Ymd H:i:s',$good->create_time)?></td>
             <td>
-                <a href='<?=\yii\helpers\Url::to(['goods/edit','id'=>$good->id])?>' class="btn btn-info  btn-xs">修改</a>
-                <a href='<?=\yii\helpers\Url::to(['goods/view','id'=>$good->id])?>' class="btn btn-success  btn-xs">详情</a>
-                <a href='<?=\yii\helpers\Url::to(['goods/photo','id'=>$good->id])?>'class="glyphicon glyphicon-picture btn btn-info btn-xs">相册</a>
-                <a href='<?=\yii\helpers\Url::to(['goods/delete','id'=>$good->id])?>' class="btn btn-danger btn-xs ">删除</a>
+                <?php
+                if(Yii::$app->user->can('goods/edit')){
+                    echo  \yii\bootstrap\Html::a('',['goods/edit','id'=>$good->id],['class'=>'btn btn-default  glyphicon glyphicon-edit']);
+                }
+
+                if(Yii::$app->user->can('goods/detail')){
+                    echo  \yii\bootstrap\Html::a('',['goods/view','id'=>$good->id],['class'=>'btn btn-default  glyphicon  glyphicon-search']);
+                }
+                if(Yii::$app->user->can('goods/del')){
+                    echo  \yii\bootstrap\Html::a('',['goods/del','id'=>$good->id],['class'=>'btn btn-default  glyphicon  glyphicon-trash']);
+                }
+                if(Yii::$app->user->can('goods/photo')){
+                    echo  \yii\bootstrap\Html::a('',['goods/photo','id'=>$good->id],['class'=>'btn btn-default  glyphicon  glyphicon-picture']);
+                }
+                ?>
+
+
+
             </td>
         </tr>
     <?php endforeach;?>
@@ -66,7 +80,12 @@ echo \yii\bootstrap\Html::submitButton('搜索',['class'=>'btn btn-info']);
     <?=\yii\widgets\LinkPager::widget(['pagination'=>$page,'nextPageLabel'=>'下一页',
         'prevPageLabel'=>'上一页','firstPageLabel'=>'首页','lastPageLabel'=>'末页']);?>
 </div>
-    <a href="<?=\yii\helpers\Url::to(['goods/add'])?>" class="btn btn-info">添加</a>
+<?php
+if(Yii::$app->user->can('goods/add')){
+echo  \yii\bootstrap\Html::a('添加商品',['goods/add'],['class'=>'btn btn-default  glyphicon glyphicon-shopping-cart']);
+}
+
+
 
 
 

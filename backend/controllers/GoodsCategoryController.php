@@ -88,7 +88,7 @@ class GoodsCategoryController extends PublicController
         return $this->render('add',['model'=>$model,'categories'=>$categories]);
     }
     //删除分类，分类下有子孙分类不能删除，只能删除没有子孙分类的分类；
-    public function actionDelete($id){
+    public function actionDel($id){
       $model=  GoodsCategory::findOne(['parent_id'=>$id]);
 
      if(!empty($model)){
