@@ -1,4 +1,4 @@
-<<?php
+<?php
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -6,7 +6,7 @@
 use yii\helpers\Html;
 
 //加载静态资源管理器，注册静态资源到当前布局文件
-\frontend\assets\GoodsAsset::register($this);
+\frontend\assets\ListAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -283,18 +283,5 @@ use yii\helpers\Html;
 
 <?php $this->endBody() ?>
 </body>
-<script type="text/javascript">
-    $(function(){
-        $('.jqzoom').jqzoom({
-            zoomType: 'standard',
-            lens:true,
-            preloadImages: false,
-            alwaysOn:false,
-            title:false,
-            zoomWidth:400,
-            zoomHeight:400
-        });
-    })
-</script>
 </html>
 <?php $this->endPage() ?>

@@ -27,6 +27,8 @@ use yii\helpers\Html;
         echo $form->field($model,'re_password')->passwordInput(['class'=>'txt']);//确认密码
         echo $form->field($model,'email')->textInput(['class'=>'txt']);//邮箱
         echo $form->field($model,'tel')->textInput(['class'=>'txt']);//电话
+        $button =  Html::button('发送验证码',['id'=>'send_sms_button']);
+        echo $form->field($model,'smsCode',['options'=>['class'=>'checkcode'],'template'=>"{label}\n{input}$button\n{hint}\n{error}"])->textInput(['class'=>'txt']);
         echo $form->field($model,'code',['options'=>['class'=>'checkcode']])->widget(\yii\captcha\Captcha::className(),['template'=>'{input}{image}']);
 
         echo '<li>
@@ -49,3 +51,61 @@ use yii\helpers\Html;
     </div>
 </div>
 <!-- 登录主体部分end -->
+<?php
+/* @var $this \yii\web\View
+ */
+$url=\yii\helpers\Url::to(['user/sendsms']);
+$this->registerJs(new \yii\web\JsExpression(
+        <<<JS
+        $('#send_sms_button').click(function(){
+            
+            
+               //当发送验证码被点击的时候
+          //现获取到手机号码和用户名
+          var tel=$('#member-tel').val();
+          var usernmae=$('#member-username').val();
+          //发送ajax请求
+          $.post('$url',{'tel':tel,'username':usernmae},function(data) {
+            if(data == 'success'){
+                console.log('短信发送成功');
+                
+            }else{
+                console.log(data);
+            }
+         
+            
+         })
+            //启用输入框
+            // $('#member-smscode').prop('disabled',false);
+            //
+            // var time=30;
+            // var interval = setInterval(function(){
+				// time--;
+				// if(time<=0){
+				// 	clearInterval(interval);
+				// 	var html = '获取验证码';
+				// 	$('#send_sms_button').prop('disabled',false);
+				// } else{
+				// 	var html = time + ' 秒后再次获取';
+				// 	$('#send_sms_button').prop('disabled',true);
+				// }
+				//
+				// $('#send_sms_button').text(html);
+            // },1000);
+		
+        
+         
+          
+       
+        
+        });
+		
+	
+
+
+JS
+
+
+
+
+));

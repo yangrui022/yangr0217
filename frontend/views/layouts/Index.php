@@ -154,41 +154,10 @@ use yii\helpers\Html;
                 <h2>全部商品分类</h2>
                 <em></em>
             </div>
-
-            <div class="cat_bd">
-            </div>
-            <?php $goods_categorys=\backend\models\GoodsCategory::find()->where(['parent_id'=>0])->all();
-
-            foreach ($goods_categorys as $goods_category):?>
-                <div class="cat">
-                    <h3><a href=""><?php echo  $goods_category->name?></a><b></b></h3>
-                    <div class="cat_detail">
-                        <dl class="dl_1st">
-                        </dl>
-                        <?php
-                        $goods_tos=\backend\models\GoodsCategory::find()->where(['parent_id'=>$goods_category->id])->all();
-                        foreach ($goods_tos as $goods_to):
-                        ?>
-                        <dl>
-
-                            <dt><?=Html::a($goods_to->name)?></dt>
-                            <?php
-                            $goods_ths=\backend\models\GoodsCategory::find()->where(['parent_id'=>$goods_to->id])->all();
-                            foreach ($goods_ths as $goods_th):
-                                ?>
-                            <dd>
-                                <?=Html::a($goods_th->name,['goods/list','id'=>$goods_th->id])?>
-                            </dd>
-                            <?php endforeach;?>
-                        </dl>
-                        <?php endforeach;?>
-
-                    </div>
-                </div>
-            <?php endforeach; ?>
+            <div class="cat_bd"><?=\frontend\widgets\CategoryWidget::widget();?>
         </div>
         <!--  商品分类部分 end-->
-
+        </div>
         <div class="navitems fl">
             <ul class="fl">
                 <li class="current"><a href="">首页</a></li>

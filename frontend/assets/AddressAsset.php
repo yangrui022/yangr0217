@@ -19,19 +19,15 @@ class AddressAsset extends AssetBundle
         'style/base.css',
         'style/global.css',
         'style/header.css',
-        'style/home.css',
-        'style/list.css',
-        'style/common.css',
-        'style/address.css',
-        'style/bottomnav.css',
+        'style/cart.css',
         'style/footer.css',
 
     ];
     //需要加载的js文件
     public $js = [
-        //'js/jquery-1.8.3.min.js',
+        'js/jquery-1.8.3.min.js',
         'js/header.js',
-        'js/home.js',
+
 
     ];
     //和其他静态资源管理器的依赖关系

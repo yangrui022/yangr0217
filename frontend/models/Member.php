@@ -26,6 +26,10 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
     public $password;//明文密码
     public $re_password;//确认密码
     public $code;//验证码
+    public $smsCode;//短信验证码
+
+    const SCENARIO_REGISTER = 'register';
+
     /**
      * @inheritdoc
      */
@@ -33,28 +37,38 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return 'member';
     }
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['username','password','re_password'], 'required'],
+            [['username','email','tel'], 'required'],
+            [['password','re_password','smsCode'], 'required','on'=>self::SCENARIO_REGISTER],
+            ['code','captcha','on'=>self::SCENARIO_REGISTER],
             [['last_login_time', 'last_login_ip', 'status', 'created_at', 'updated_at'], 'integer'],
             ['password','string','length'=>[6,10],'tooShort'=>'密码不够六位'],
-            ['email','email'],
+            [['email'],'email'],
             [['email','username'], 'unique','message'=>'{attribute}已被注册'],
             [['username'], 'string', 'max' => 50],
             [['auth_key'], 'string', 'max' => 32],
             [['password_hash', 'email'], 'string', 'max' => 100],
-            [['tel'], 'integer', 'min' => 11],
+            [['tel'], 'string','length'=>11],
             [['code'],'required','message'=>'请输入验证码'],
             [['re_password'], 'compare','compareAttribute'=>'password','message' => '两次密码不一致'],
+            ['smsCode','validateCode','on'=>self::SCENARIO_REGISTER]
 
         ];
     }
 
+    //验证短信验证码是否正确
+    public function validateCode(){
+//验证缓存中是否有存在电话号码
+        $v=Yii::$app->cache->get('tel_'.$this->tel);
+        if(!$v || $this->smsCode!=$v){
+            $this->addError('smsCode','验证码不正确！');
+        }
+    }
     /**
      * @inheritdoc
      */
@@ -74,7 +88,8 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
             'updated_at' => '修改时间',
             'password'=>'密码',
             're_password'=>'确认密码',
-            'code'=>'验证码'
+            'code'=>'验证码',
+            'smsCode'=>'短信验证码',
         ];
     }
 
@@ -86,6 +101,8 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
 
             //生成随机字符串
             $this->auth_key = Yii::$app->security->generateRandomString();
+        }else{
+            $this->updated_at=time();
         }
         if($this->password){
             $this->password_hash = Yii::$app->security->generatePasswordHash($this->password);

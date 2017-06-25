@@ -2,7 +2,7 @@
 <div class="list w1210 bc mt10">
     <!-- 面包屑导航 start -->
     <div class="breadcrumb">
-        <h2>当前位置：<a href="">首页</a> > <a href="">电脑、办公</a></h2>
+        <h2>当前位置：<a href="">首页</a> > <a href=""><?=\yii\helpers\Html::a($category->name,['goods/list','id'=>$category->id])?></a></h2>
     </div>
     <!-- 面包屑导航 end -->
 
@@ -10,54 +10,23 @@
     <div class="list_left fl mt10">
         <!-- 分类列表 start -->
         <div class="catlist">
-            <h2>电脑、办公</h2>
+            <h2><?=$category->name?></h2>
             <div class="catlist_wrap">
+                <?php
+                $categorys=\backend\models\GoodsCategory::find()->where(['parent_id'=>$category->id])->all();
+                foreach ($categorys as $K=>$category):
+                ?>
                 <div class="child">
-                    <h3 class="on"><b></b>电脑整机</h3>
+                    <h3 class="on"><b></b><?=$category->name?></h3>
+                    <?php foreach ($category->children as $child):?>
                     <ul>
-                        <li><a href="">笔记本</a></li>
-                        <li><a href="">超极本</a></li>
-                        <li><a href="">平板电脑</a></li>
+                        <li><?=\yii\helpers\Html::a($child->name,['goods/list','id'=>$child->id])?></li>
+
                     </ul>
+                    <?php endforeach;?>
                 </div>
 
-                <div class="child">
-                    <h3><b></b>电脑配件</h3>
-                    <ul class="none">
-                        <li><a href="">CPU</a></li>
-                        <li><a href="">主板</a></li>
-                        <li><a href="">显卡</a></li>
-                    </ul>
-                </div>
-
-                <div class="child">
-                    <h3><b></b>办公打印</h3>
-                    <ul class="none">
-                        <li><a href="">打印机</a></li>
-                        <li><a href="">一体机</a></li>
-                        <li><a href="">投影机</a></li>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="child">
-                    <h3><b></b>网络产品</h3>
-                    <ul class="none">
-                        <li><a href="">路由器</a></li>
-                        <li><a href="">网卡</a></li>
-                        <li><a href="">交换机</a></li>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="child">
-                    <h3><b></b>外设产品</h3>
-                    <ul class="none">
-                        <li><a href="">鼠标</a></li>
-                        <li><a href="">键盘</a></li>
-                        <li><a href="">U盘</a></li>
-                    </ul>
-                </div>
+                <?php endforeach;?>
             </div>
 
             <div style="clear:both; height:1px;"></div>
@@ -274,7 +243,9 @@
                 ?>
                 <li>
                     <dl>
-                        <dt><a href='http://www.yii2shop.com/view/detail.html?id=<?php echo $good->id ?>'><img src="http://admin.yii2shop.com<?=$good->logo?>"></a></dt>
+                        <dt>
+                            <a href="<?=\yii\helpers\Url::to(['goods/detail','id'=>$good->id])?>">
+                            <img src="http://admin.yii2shop.com<?=$good->logo?>"></a></dt>
                         <dd><a href=""><?=$good->name?></a></dt>
                         <dd><strong><?=$good->shop_price?></strong></dt>
                         <dd><a href=""><em>已有10人评价</em></a></dt>
@@ -289,19 +260,21 @@
 
         <!-- 分页信息 start -->
         <div class="page mt20">
-            <a href="">首页</a>
-            <a href="">上一页</a>
-            <a href="">1</a>
-            <a href="">2</a>
-            <a href="" class="cur">3</a>
-            <a href="">4</a>
-            <a href="">5</a>
-            <a href="">下一页</a>
-            <a href="">尾页</a>&nbsp;&nbsp;
-            <span>
-					<em>共8页&nbsp;&nbsp;到第 <input type="text" class="page_num" value="3"/> 页</em>
-					<a href="" class="skipsearch" href="javascript:;">确定</a>
-				</span>
+            <?=\yii\widgets\LinkPager::widget(['pagination'=>$page,'nextPageLabel'=>'下一页',
+                'prevPageLabel'=>'上一页','firstPageLabel'=>'首页','lastPageLabel'=>'末页']);?>
+<!--            <a href="">首页</a>-->
+<!--            <a href="">上一页</a>-->
+<!--            <a href="">1</a>-->
+<!--            <a href="">2</a>-->
+<!--            <a href="" class="cur">3</a>-->
+<!--            <a href="">4</a>-->
+<!--            <a href="">5</a>-->
+<!--            <a href="">下一页</a>-->
+<!--            <a href="">尾页</a>&nbsp;&nbsp;-->
+<!--            <span>-->
+<!--					<em>共8页&nbsp;&nbsp;到第 <input type="text" class="page_num" value="3"/> 页</em>-->
+<!--					<a href="" class="skipsearch" href="javascript:;">确定</a>-->
+<!--				</span>-->
         </div>
         <!-- 分页信息 end -->
 

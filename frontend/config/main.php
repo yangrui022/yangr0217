@@ -7,6 +7,7 @@ $params = array_merge(
 );
 
 return [
+    'defaultRoute'=>'index',
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -44,7 +45,14 @@ return [
             'rules' => [
             ],
         ],
-
+        //配置短信组件
+        'sms'=>[
+            'class'=>\frontend\components\Sms::className(),
+            'app_key'=>'24480029',
+            'app_secret'=>'1441e980e19368768db330d4b1ff157e',
+            'sign_name'=>'杨睿',
+            'template_code'=>'SMS_71530128',
+        ]
     ],
     'params' => $params,
 ];
