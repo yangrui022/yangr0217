@@ -20,12 +20,17 @@ class AddressAsset extends AssetBundle
         'style/global.css',
         'style/header.css',
         'style/cart.css',
+        'style/home.css',
         'style/footer.css',
+        'style/address.css',
+        'style/bottomnav.css',
+        'style/order.css'
+
 
     ];
     //需要加载的js文件
     public $js = [
-        'js/jquery-1.8.3.min.js',
+//        'js/jquery-1.8.3.min.js',
         'js/header.js',
 
 

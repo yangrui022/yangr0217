@@ -23,6 +23,7 @@ use yii\web\IdentityInterface;
 class Member extends \yii\db\ActiveRecord implements IdentityInterface
 {
 
+
     public $password;//明文密码
     public $re_password;//确认密码
     public $code;//验证码

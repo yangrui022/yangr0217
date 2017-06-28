@@ -36,7 +36,7 @@ use yii\helpers\Html;
                     }
                     ?>  </li>
                 <li class="line">|</li>
-                <li>我的订单</li>
+                <li><?=Html::a('我的订单',['order/myorder'])?></li>
                 <li class="line">|</li>
                 <li>客户服务</li>
 
@@ -130,7 +130,8 @@ use yii\helpers\Html;
         <div class="cart fl">
             <dl>
                 <dt>
-                    <a href="">去购物车结算</a>
+                    <?=Html::a('去购物车结算',['goods/cart'])?>
+<!--                    <a href="">去购物车结算</a>-->
                     <b></b>
                 </dt>
                 <dd>

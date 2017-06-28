@@ -39,13 +39,23 @@
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="6">购物金额总计： <strong>￥ <span id="total">1870.00</span></strong></td>
+            <?php
+            $sum=0;
+            foreach ($models as $model){
+
+
+                $sum+=$model['shop_price']*$model['amount'];
+
+            }
+            ?>
+            <td colspan="6">购物金额总计： <strong>￥ <span id="total"><?=$sum?>.00</span></strong></td>
         </tr>
         </tfoot>
     </table>
     <div class="cart_btn w990 bc mt10">
         <?=\yii\helpers\Html::a('继续购物',['index/index'],['class'=>'continue'])?>
-        <a href="" class="checkout">结 算</a>
+        <?=\yii\helpers\Html::a('结算',['order/order-info'],['class'=>'checkout'])?>
+<!--        <a href="" class="checkout">结 算</a>-->
     </div>
 </div>
 

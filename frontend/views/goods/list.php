@@ -2,7 +2,7 @@
 <div class="list w1210 bc mt10">
     <!-- 面包屑导航 start -->
     <div class="breadcrumb">
-        <h2>当前位置：<a href="">首页</a> > <a href=""><?=\yii\helpers\Html::a($category->name,['goods/list','id'=>$category->id])?></a></h2>
+        <h2>当前位置：<a href="">首页</a> <?=\yii\helpers\Html::a($category->name,['goods/list','id'=>$category->id])?></h2>
     </div>
     <!-- 面包屑导航 end -->
 

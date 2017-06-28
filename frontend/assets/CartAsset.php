@@ -21,12 +21,15 @@ class CartAsset extends AssetBundle
         'style/header.css',
         'style/cart.css',
         'style/footer.css',
+        'style/fillin.css',
+        'style/success.css'
 
     ];
     //需要加载的js文件
     public $js = [
         'js/jquery-1.8.3.min.js',
         'js/cart1.js',
+        'js/cart2.js',
 
     ];
     //和其他静态资源管理器的依赖关系

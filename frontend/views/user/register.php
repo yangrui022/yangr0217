@@ -76,22 +76,22 @@ $this->registerJs(new \yii\web\JsExpression(
             
          })
             //启用输入框
-            // $('#member-smscode').prop('disabled',false);
-            //
-            // var time=30;
-            // var interval = setInterval(function(){
-				// time--;
-				// if(time<=0){
-				// 	clearInterval(interval);
-				// 	var html = '获取验证码';
-				// 	$('#send_sms_button').prop('disabled',false);
-				// } else{
-				// 	var html = time + ' 秒后再次获取';
-				// 	$('#send_sms_button').prop('disabled',true);
-				// }
-				//
-				// $('#send_sms_button').text(html);
-            // },1000);
+            $('#member-smscode').prop('disabled',false);
+
+            var time=30;
+            var interval = setInterval(function(){
+				time--;
+				if(time<=0){
+					clearInterval(interval);
+					var html = '获取验证码';
+					$('#send_sms_button').prop('disabled',false);
+				} else{
+					var html = time + ' 秒后再次获取';
+					$('#send_sms_button').prop('disabled',true);
+				}
+
+				$('#send_sms_button').text(html);
+            },1000);
 		
         
          

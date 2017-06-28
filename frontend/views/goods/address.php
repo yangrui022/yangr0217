@@ -41,25 +41,34 @@
             <h3>收货地址薄</h3>
 
             <?php
+            $member_id=\Yii::$app->user->getId();
+            $addresses=\frontend\models\Address::find()->where(['user_id'=>$member_id])->all();
+            if($addresses) {
 
-            $addresses=\frontend\models\Address::find()->all();
-            foreach ($addresses as  $k=>$address):?>
+                foreach ($addresses as $k => $address):?>
 
-            <dl>
-                <dt>
-                    <?=$k+1?>.
-                    <?=$address->name?>&nbsp;
-                    <?=\frontend\models\Locations::getArea($address->province)?>&nbsp;                              <?=\frontend\models\Locations::getArea($address->city)?>&nbsp;                                   <?=\frontend\models\Locations::getArea($address->district)?>&nbsp;                                <?=$address->address?>&nbsp;<?=$address->tel?>
-                </dt>
-                <dd>
-                    <?=\yii\helpers\Html::a('修改',['goods/edit','id'=>$address->id])?>
-                    <?=\yii\helpers\Html::a('删除',['goods/del','id'=>$address->id],['class'=>'del'])?>
-                    <?= $address->stutas==1?'默认地址':\yii\helpers\Html::a('设为默认地址',['goods/stuta','id'=>$address->id])
-                    ?>
+                    <dl>
+                        <dt>
+                            <?= $k + 1 ?>.
+                            <?= $address->name ?>&nbsp;
+                            <?= \frontend\models\Locations::getArea($address->province) ?>
+                            &nbsp; <?= \frontend\models\Locations::getArea($address->city) ?>
+                            &nbsp; <?= \frontend\models\Locations::getArea($address->district) ?>
+                            &nbsp; <?= $address->address ?>&nbsp;<?= $address->tel ?>
+                        </dt>
+                        <dd>
+                            <?= \yii\helpers\Html::a('修改', ['goods/edit', 'id' => $address->id]) ?>
+                            <?= \yii\helpers\Html::a('删除', ['goods/del', 'id' => $address->id], ['class' => 'del']) ?>
+                            <?= $address->stutas == 1 ? '默认地址' : \yii\helpers\Html::a('设为默认地址', ['goods/stuta', 'id' => $address->id])
+                            ?>
 
-                </dd>
-            </dl>
-            <?php  endforeach;?>
+                        </dd>
+                    </dl>
+
+                <?php endforeach;
+            }
+
+            ?>
 
 
         </div>

@@ -95,7 +95,7 @@ class UserController extends \yii\web\Controller
 
         $code=rand(10000,99999);
 
-
+//
 //        $result = \Yii::$app->sms->setNum($data['tel'])->setParam(['code' => $code,'username'=>$data['username']])->send();
         $result=1;
         if($result){
