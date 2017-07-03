@@ -20,8 +20,8 @@
             );
             echo '<ul>';
             echo $form->field($model,'username')->textInput(['class'=>'txt']);              echo $form->field($model,'password')->passwordInput(['class'=>'txt']);
-            echo $form->field($model,'code',['options'=>['class'=>'checkcode']])->widget(\yii\captcha\Captcha::className(),['template'=>'{input}{image}']);
-            echo $form->field($model,'rememberMe')->checkbox();
+//            echo $form->field($model,'code',['options'=>['class'=>'checkcode']])->widget(\yii\captcha\Captcha::className(),['template'=>'{input}{image}']);
+//            echo $form->field($model,'rememberMe')->checkbox();
 
             echo '<li>
                         <label for="">&nbsp;</label>

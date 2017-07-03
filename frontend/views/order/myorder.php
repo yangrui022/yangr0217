@@ -69,15 +69,15 @@
                 <?php
 
 
-                foreach ($orders as $order):?>
+                foreach ($models as $model):?>
                 <tr>
-                    <td><a href=""><?=$order->trade_no?></a></td>
-                    <td><a href=""><img src="http://admin.yii2shop.com/<?=$goods->logo?>" alt="" /></a></td>
-                    <td><?=$order->name?></td>
-                    <td>￥<?=$order->total?> &nbsp;<?=$order->delivery_name?></td>
-                    <td><?=date('Ymd H:i:s',$order->create_time)?></td>
-                    <td><?=\frontend\models\Order::$statuOptions[$order->stuats]?></td>
-                    <td><?=\yii\helpers\Html::a('查看',['order/view','id'=>$order->id])?> | <a href="">删除</a></td>
+                    <td><a href=""><?=$model->order->trade_no?></a></td>
+                    <td><a href=""><img src="http://admin.yii2shop.com/<?=$model->logo?>" alt="" /></a></td>
+                    <td><?=$model->order->name?></td>
+                    <td>￥<?=$model->order->total?> &nbsp;<?=$model->order->delivery_name?></td>
+                    <td><?=date('Y-m-d H:i:s',$model->order->create_time)?></td>
+                    <td><?=\frontend\models\Order::$statuOptions[$model->order->stuats]?></td>
+                    <td><?=\yii\helpers\Html::a('查看',['order/view','id'=>$model->order->id])?> | <a href="">删除</a></td>
                 </tr>
                 <?php endforeach;?>
 

@@ -13,7 +13,7 @@ class LoginForm extends Model{
     public function rules()
     {
         return [
-            [['username','password','code'], 'required'],
+            [['username','password'], 'required'],
             ['username','validateUsername'],
             ['rememberMe','boolean'],
 
@@ -26,7 +26,7 @@ class LoginForm extends Model{
             'username'=>'用户名',
             'password'=>'密码',
             'rememberMe'=>'记住我',
-            'code'=>'验证码'
+//            'code'=>'验证码'
         ];
     }
 //登录的时候验证用户名和密码

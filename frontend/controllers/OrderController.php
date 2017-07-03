@@ -9,6 +9,7 @@ use frontend\models\Shopcart;
 use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use yii\db\Exception;
 use yii\web\Controller;
+use yii\web\Cookie;
 
 class OrderController extends Controller{
 
@@ -27,6 +28,7 @@ class OrderController extends Controller{
 
     ];
     public function actionOrderInfo(){
+
         if(\Yii::$app->user->isGuest){
             return $this->redirect(['user/login']);
 
@@ -172,17 +174,22 @@ class OrderController extends Controller{
         $member_id=\Yii::$app->user->id;
         //获取该用户的所有订单信息
         $orders=Order::find()->where(['member_id'=>$member_id])->all();
-
+$models=[];
     foreach ($orders as $order){
 
        $goods=OrderInfo::findOne(['order_id'=>$order->id]);
 
+        if($goods){
 
+            $models[]=$goods;
+//            var_dump($models);exit;
+        }
     }
+
 
         //获取商品信息
 
-      return  $this->render('myorder',['orders'=>$orders,'goods'=>$goods]);
+      return  $this->render('myorder',['models'=>$models]);
     }
 
 

@@ -1,6 +1,7 @@
 <?php
 namespace backend\models;
 
+use frontend\models\Member;
 use yii\base\Model;
 
 
@@ -17,20 +18,36 @@ Class EditPwdForm extends Model{
             'old_password'=>'旧密码',
             'new_password'=>'新密码',
             're_password'=>'确认新密码',
-            'code'=>'验证码',
+
         ];
     }
     public function rules()
     {
         return [
 
-            [['code', 'old_password', 'new_password', 're_password'], 'required'],
+            [[ 'old_password', 'new_password', 're_password'], 'required'],
 
 
         ];
     }
 
 
+public function getPassword($id){
+        $member=Member::findOne(['id'=>$id]);
 
+        if($member){
+            //如果用户存在
+            if(\Yii::$app->security->validatePassword($this->old_password,$member->password)){
+
+                $this->addError('old_password','旧密码不正确');
+
+
+            }
+
+
+        }
+
+
+}
 
 }

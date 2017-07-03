@@ -27,9 +27,9 @@ use yii\helpers\Html;
         echo $form->field($model,'re_password')->passwordInput(['class'=>'txt']);//确认密码
         echo $form->field($model,'email')->textInput(['class'=>'txt']);//邮箱
         echo $form->field($model,'tel')->textInput(['class'=>'txt']);//电话
-        $button =  Html::button('发送验证码',['id'=>'send_sms_button']);
-        echo $form->field($model,'smsCode',['options'=>['class'=>'checkcode'],'template'=>"{label}\n{input}$button\n{hint}\n{error}"])->textInput(['class'=>'txt']);
-        echo $form->field($model,'code',['options'=>['class'=>'checkcode']])->widget(\yii\captcha\Captcha::className(),['template'=>'{input}{image}']);
+//        $button =  Html::button('发送验证码',['id'=>'send_sms_button']);
+//        echo $form->field($model,'smsCode',['options'=>['class'=>'checkcode'],'template'=>"{label}\n{input}$button\n{hint}\n{error}"])->textInput(['class'=>'txt']);
+//        echo $form->field($model,'code',['options'=>['class'=>'checkcode']])->widget(\yii\captcha\Captcha::className(),['template'=>'{input}{image}']);
 
         echo '<li>
                         <label for="">&nbsp;</label>

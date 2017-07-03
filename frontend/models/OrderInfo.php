@@ -54,4 +54,7 @@ class OrderInfo extends \yii\db\ActiveRecord
             'total' => '商品总数',
         ];
     }
+        public function getOrder(){
+            return $this->hasOne(Order::className(),['id'=>'order_id']);
+        }
 }

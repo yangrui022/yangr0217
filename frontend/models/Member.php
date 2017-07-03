@@ -45,9 +45,9 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['username','email','tel'], 'required'],
-            [['password','re_password','smsCode'], 'required','on'=>self::SCENARIO_REGISTER],
-            ['code','captcha','on'=>self::SCENARIO_REGISTER],
-            [['last_login_time', 'last_login_ip', 'status', 'created_at', 'updated_at'], 'integer'],
+//            [['password','re_password','smsCode'], 'required','on'=>self::SCENARIO_REGISTER],
+//            ['code','captcha','on'=>self::SCENARIO_REGISTER],
+//            [['last_login_time', 'last_login_ip', 'status', 'created_at', 'updated_at'], 'integer'],
             ['password','string','length'=>[6,10],'tooShort'=>'密码不够六位'],
             [['email'],'email'],
             [['email','username'], 'unique','message'=>'{attribute}已被注册'],
@@ -55,9 +55,9 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
             [['auth_key'], 'string', 'max' => 32],
             [['password_hash', 'email'], 'string', 'max' => 100],
             [['tel'], 'string','length'=>11],
-            [['code'],'required','message'=>'请输入验证码'],
+//            [['code'],'required','message'=>'请输入验证码'],
             [['re_password'], 'compare','compareAttribute'=>'password','message' => '两次密码不一致'],
-            ['smsCode','validateCode','on'=>self::SCENARIO_REGISTER]
+//            ['smsCode','validateCode','on'=>self::SCENARIO_REGISTER]
 
         ];
     }

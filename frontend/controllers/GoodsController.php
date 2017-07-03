@@ -9,21 +9,21 @@ use backend\models\GoodsIntro;
 use backend\models\GoodsPhoto;
 use Behat\Gherkin\Exception\NodeException;
 use Codeception\Exception\ElementNotFound;
+use frontend\components\SphinxClient;
 use frontend\models\Address;
-
 use frontend\models\Locations;
-
 use frontend\models\Shopcart;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\Cookie;
-use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 
 class GoodsController extends Controller{
 
     public $layout='address';
+
+
     public function actionAddress(){
 
         $model=new Address();
@@ -387,5 +387,72 @@ class GoodsController extends Controller{
 
         }
 
+    }
+
+
+    public function actionSerarch(){
+        $this->layout='list';
+        $query = Goods::find();
+        if($keyword = \Yii::$app->request->get('keyword')) {
+            $cl = new SphinxClient();
+            $cl->SetServer('127.0.0.1', 9312);
+            $cl->SetConnectTimeout(10);
+            $cl->SetArrayResult(true);
+            $cl->SetMatchMode(SPH_MATCH_ALL);
+            $cl->SetLimits(0, 1000);
+            $res = $cl->Query($keyword, 'goods');//shopstore_search
+            if (!isset($res['matches'])) {
+//                throw new NotFoundHttpException('没有找到xxx商品');
+                $query->where(['id' => 0]);
+            } else {
+
+                //获取商品id
+                //var_dump($res);exit;
+                $ids = ArrayHelper::map($res['matches'], 'id', 'id');
+                $query->where(['in', 'id', $ids]);
+            }
+
+        }
+            $pager = new Pagination([
+                'totalCount' => $query->count(),
+                'pageSize' => 8
+            ]);
+
+            $models = $query->limit($pager->limit)->offset($pager->offset)->all();
+            $keywords = array_keys($res['words']);
+            $options = array(
+                'before_match' => '<span style="color:red;">',
+                'after_match' => '</span>',
+                'chunk_separator' => '...',
+                'limit' => 80, //如果内容超过80个字符，就使用...隐藏多余的的内容
+            );
+//关键字高亮
+//        var_dump($models);exit;
+            foreach ($models as $index => $item) {
+                $name = $cl->BuildExcerpts([$item->name], 'goods', implode(',', $keywords), $options); //使用的索引不能写*，关键字可以使用空格、逗号等符号做分隔，放心，sphinx很智能，会给你拆分的
+                $models[$index]->name = $name[0];
+//                var_dump($name);
+//                exit;
+
+            }
+            return $this->render('serarch',['models'=>$models,'pager'=>$pager]);
+
+
+    }
+    public function actionTest(){
+        $cl = new SphinxClient();
+        $cl->SetServer ( '127.0.0.1', 9312);
+//$cl->SetServer ( '10.6.0.6', 9312);
+//$cl->SetServer ( '10.6.0.22', 9312);
+//$cl->SetServer ( '10.8.8.2', 9312);
+        $cl->SetConnectTimeout ( 10 );
+        $cl->SetArrayResult ( true );
+// $cl->SetMatchMode ( SPH_MATCH_ANY);
+        $cl->SetMatchMode ( SPH_MATCH_ALL);
+        $cl->SetLimits(0, 1000);
+        $info = '男士体恤';//需要搜索的词
+        $res = $cl->Query($info, 'goods');//shopstore_search
+//print_r($cl);
+        var_dump($res);
     }
 }
